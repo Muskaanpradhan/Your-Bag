@@ -22,7 +22,7 @@ function App() {
   console.log(products)
 
 
-  function clearCart() {
+  function clear() {
     setProducts([]);
   }
 
@@ -84,7 +84,7 @@ function App() {
       </header>
       {
         products.length == 0 ? 
-        <div className='empty'>
+        <div className='clear'>
           <h1>Cart is Empty</h1>
         </div>
         :
@@ -121,7 +121,7 @@ function App() {
           </p>
         </div>
         <div className='second'>
-          <button onClick={clearCart}>Clear Cart</button>
+          <button onClick={clear}>Clear Cart</button>
         </div>
       </footer>
       </>
