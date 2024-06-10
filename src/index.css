@@ -76,3 +76,89 @@ h1{
 .mainDiv{
   text-align: center;
 } */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px;
+  padding: 40px;
+  background-color: blue;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.products {
+  border-bottom: 5px solid;
+  /* width: fit-content;
+  margin: auto; */
+}
+
+.wrapper {
+  margin: 20px 100px 0px 100px;
+  
+  display: flex;
+  border: 2px solid;
+  height: 180px;
+  align-items: center;
+}
+
+img {
+  height: 130px;
+  width: 140px;
+}
+
+.detail {
+  width: 500px;
+  font-size: 25px;
+}
+
+footer {
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  font-size: 30px;
+}
+
+.first {
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin-top: 20px;
+  /* margin-bottom: 3px; */
+}
+
+.remove {
+  cursor: pointer;
+}
+
+span {
+  cursor: pointer;
+  font-size: 20px;
+  /* font-weight: 20px; */
+}
+
+.empty {
+  text-align: center;
+  /* margin-top: 35vh; */
+}
+
+button{
+  background-color: blue;
+  color: white;
+  width: 100px;
+  /* height: 10px; */
+}

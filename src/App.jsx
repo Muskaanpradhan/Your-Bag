@@ -1,76 +1,135 @@
-import { useEffect, useState , createContext} from 'react'
+import { useEffect, useState } from 'react'
+import data from './Data';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping} from "@fortawesome/free-solid-svg-icons";
-import './App.css'
-
-//import Header from './Header.jsx'
-
-export const context = createContext()
+import './index.css'
 
 function App() {
-
-
-  const [products, setProduct] = useState([])
-
+  const [products, setProducts] = useState([])
+  const [cartCount, setCartCount] = useState(null);
+  
+  let total = 0
+  products.map(product => {
+    total += product.amount * product.price;
+  })
 
 
   useEffect(() => {
-    fetch("https://www.course-api.com/react-useReducer-cart-project").then((response) => response.json())
-    .then(result => {
-      setProduct(result);
-     // console.log(result);
-    })
-  },[])
+    setProducts(data);
 
-  function clear(){
-    setProduct([])
+  }, [])
+  
+  console.log(products)
 
+
+  function clearCart() {
+    setProducts([]);
   }
 
-  const truncate = (title) => {
-    if (title.length > 5) {
-        title = title.slice(0, 5) + "..."
-    }
-    return title
-}
-  return(
-    <>
-  <header>
-    <div className="header">
-    <h2>UseReducer
-   <span><FontAwesomeIcon
-                icon={faCartShopping}
-               className='Icon'/></span>
-               </h2>
-               
-  </div>
-  </header>
-    <div className="mainDiv">
-     <h1>Your Bag</h1>
-     
-     <main>
-        {
-          products.map((product, index) => {
-            return (<div className='wrapper' key={index}>
-                {/* <Link to={`/product/${product.id}`}> */}
-                    <img src={product.img} width={"300px"} height={"300px"} alt="" className='wrapperimage' />
-                {/* </Link> */}
-                <h2>{truncate(product.title)}</h2>
-                <h3>Price : {product.price} <br></br>
-                <a href='removeItem' >removeItem</a>
-                </h3>
-              
-              
-               
+  function handleRemove(productToRemove) {
+    
+    const newProducts = products.filter((product) => {
+      return productToRemove !== product
+    })
 
-            </div>)
+    setProducts(newProducts);
+  }
+
+  useEffect(() => {
+    let quantity = 0;
+    products.forEach(product => {
+      quantity += product.amount;
+    })
+    setCartCount(quantity)
+
+  }, [products])
+
+
+
+  function handleDecrement(decrement) {
+    if (decrement.amount != 1) {
+      let obj = products.find(product => {
+        return decrement == product
+      })
+      obj.amount -= 1
+      let quantity = 0;
+      products.forEach(product => {
+        quantity += product.amount;
+      })
+      setCartCount(quantity)
+    }
+  }
+
+  function handleIncrement(Increment) {
+    
+    let obj = products.find(product => {
+      return Increment == product
+    })
+    obj.amount += 1;
+    let quantity = 0;
+    products.forEach(product => {
+      quantity += product.amount;
+    })
+    setCartCount(quantity)
+  }
+
+  return (
+    <>
+      <header>
+        <h1>UseReducer</h1>
+       <p> <FontAwesomeIcon 
+                icon={faCartShopping}
+               className='Icon' />
+        ({cartCount})</p>
+      </header>
+      {
+        products.length == 0 ? 
+        <div className='empty'>
+          <h1>Cart is Empty</h1>
+        </div>
+        :
+        <>
+        <div className="products">
+        {products.map((product, index) => {
+          return (<>
+
+            <div className="wrapper" key={index}>
+
+              <img src={product.img}></img>
+
+              <div className='detail'>
+                <h5>{product.title}</h5>
+                <p>{product.price}</p>
+                <button className='remove' onClick={() => { handleRemove(product) }}>remove</button>
+              </div>
+              <div>
+                <span onClick={() => { handleDecrement(product) }}>&lt;</span>&nbsp;
+                ({product.amount})
+                &nbsp;<span onClick={() => { handleIncrement(product) }}>&gt;</span>
+              </div>
+
+            </div>
+          </>)
         })
         }
-      <button onClick={()=> clear()}>clearAll</button>
-     </main>
-    </div>
+      </div>
+      <footer>
+        <div className='first'>
+          <h3>Total</h3>
+          <p>&nbsp;&nbsp;
+            {Math.round(total)}
+          </p>
+        </div>
+        <div className='second'>
+          <button onClick={clearCart}>Clear Cart</button>
+        </div>
+      </footer>
+      </>
+
+      }
+      
     </>
   )
-  }
+}
 
 export default App
